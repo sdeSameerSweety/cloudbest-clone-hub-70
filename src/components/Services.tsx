@@ -4,17 +4,17 @@ const Services = () => {
     {
       title: "Enterprise Solutions",
       description: "Customized solutions for large-scale organizations",
-      price: "Custom Pricing",
+      price: "Comprehensive Enterprise Package",
     },
     {
       title: "Team Management",
       description: "Complete team management and collaboration tools",
-      price: "Starting at $99/mo",
+      price: "Full Team Collaboration Suite",
     },
     {
       title: "Resource Planning",
       description: "Advanced resource allocation and planning tools",
-      price: "Starting at $149/mo",
+      price: "Advanced Planning Toolkit",
     },
   ];
 

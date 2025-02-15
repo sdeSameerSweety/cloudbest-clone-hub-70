@@ -1,5 +1,12 @@
 
 const Hero = () => {
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section id="home" className="min-h-screen pt-20 flex items-center bg-gradient-to-b from-white to-muted">
       <div className="container mx-auto px-6">
@@ -14,10 +21,16 @@ const Hero = () => {
             Empower your organization with our advanced team management solutions
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up" style={{ animationDelay: "0.4s" }}>
-            <button className="px-8 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
+            <button
+              className="px-8 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+              onClick={() => scrollToSection('contact')}
+            >
               Get Started
             </button>
-            <button className="px-8 py-3 bg-white text-primary border border-primary rounded-lg hover:bg-primary/10 transition-colors">
+            <button
+              className="px-8 py-3 bg-white text-primary border border-primary rounded-lg hover:bg-primary/10 transition-colors"
+              onClick={() => scrollToSection('features')}
+            >
               Learn More
             </button>
           </div>
