@@ -1,22 +1,54 @@
 
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import emailjs from '@emailjs/browser';
+
+// Initialize EmailJS with your public key
+emailjs.init("WnbNhp-DrWdpJoGwS");
 
 const Contact = () => {
   const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Message Sent",
-      description: "We'll get back to you soon!",
-    });
-    setFormData({ name: "", email: "", message: "" });
+    setIsSubmitting(true);
+
+    try {
+      // Send email using EmailJS
+      await emailjs.send(
+        "service_w3kq6jf", // Service ID
+        "template_9n72rpd", // Template ID
+        {
+          from_name: formData.name,
+          reply_to: formData.email,
+          to_email: "support@cloudbest.live",
+          message: formData.message,
+        }
+      );
+
+      toast({
+        title: "Message Sent Successfully",
+        description: "We'll get back to you soon!",
+      });
+
+      // Clear form after successful submission
+      setFormData({ name: "", email: "", message: "" });
+    } catch (error) {
+      console.error("EmailJS Error:", error);
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -44,6 +76,7 @@ const Contact = () => {
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-primary focus:border-transparent"
                 required
+                disabled={isSubmitting}
               />
             </div>
 
@@ -58,6 +91,7 @@ const Contact = () => {
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-primary focus:border-transparent"
                 required
+                disabled={isSubmitting}
               />
             </div>
 
@@ -72,14 +106,16 @@ const Contact = () => {
                 rows={4}
                 className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-primary focus:border-transparent"
                 required
+                disabled={isSubmitting}
               />
             </div>
 
             <button
               type="submit"
-              className="w-full px-8 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+              className="w-full px-8 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={isSubmitting}
             >
-              Send Message
+              {isSubmitting ? "Sending..." : "Send Message"}
             </button>
           </form>
         </div>
