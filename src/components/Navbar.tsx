@@ -25,6 +25,7 @@ const Navbar = () => {
           {/* Desktop menu */}
           <div className="hidden lg:flex space-x-8">
             <NavLink to="/">Home</NavLink>
+            <NavLink to="/#about">About</NavLink>
             <NavLink to="/#features">Features</NavLink>
             <NavLink to="/#services">Services</NavLink>
             <NavLink to="/career">Career</NavLink>
@@ -37,6 +38,7 @@ const Navbar = () => {
           <div className="lg:hidden py-4">
             <div className="flex flex-col space-y-4">
               <NavLink to="/" mobile>Home</NavLink>
+              <NavLink to="/#about" mobile>About</NavLink>
               <NavLink to="/#features" mobile>Features</NavLink>
               <NavLink to="/#services" mobile>Services</NavLink>
               <NavLink to="/career" mobile>Career</NavLink>
