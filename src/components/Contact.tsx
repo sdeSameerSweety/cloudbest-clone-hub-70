@@ -1,7 +1,10 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import emailjs from '@emailjs/browser';
+
+// Initialize EmailJS
+emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your actual public key
 
 const Contact = () => {
   const { toast } = useToast();
@@ -18,15 +21,14 @@ const Contact = () => {
 
     try {
       await emailjs.send(
-        'YOUR_SERVICE_ID', // You'll need to replace this with your EmailJS service ID
-        'YOUR_TEMPLATE_ID', // You'll need to replace this with your EmailJS template ID
+        "YOUR_SERVICE_ID", // Replace with your EmailJS service ID
+        "YOUR_TEMPLATE_ID", // Replace with your EmailJS template ID
         {
-          to_email: 'support@cloudbest.live',
           from_name: formData.name,
-          from_email: formData.email,
+          reply_to: formData.email,
+          to_email: "support@cloudbest.live",
           message: formData.message,
-        },
-        'YOUR_PUBLIC_KEY' // You'll need to replace this with your EmailJS public key
+        }
       );
 
       toast({
@@ -36,6 +38,7 @@ const Contact = () => {
 
       setFormData({ name: "", email: "", message: "" });
     } catch (error) {
+      console.error("EmailJS Error:", error);
       toast({
         title: "Error",
         description: "Failed to send message. Please try again later.",
