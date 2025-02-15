@@ -24,11 +24,11 @@ const Navbar = () => {
 
           {/* Desktop menu */}
           <div className="hidden lg:flex space-x-8">
-            <NavLink href="/">Home</NavLink>
-            <NavLink href="/#features">Features</NavLink>
-            <NavLink href="/#services">Services</NavLink>
-            <NavLink href="/career">Career</NavLink>
-            <NavLink href="/#contact">Contact</NavLink>
+            <NavLink to="/">Home</NavLink>
+            <NavLink to="/#features">Features</NavLink>
+            <NavLink to="/#services">Services</NavLink>
+            <NavLink to="/career">Career</NavLink>
+            <NavLink to="/#contact">Contact</NavLink>
           </div>
         </div>
 
@@ -36,11 +36,11 @@ const Navbar = () => {
         {isOpen && (
           <div className="lg:hidden py-4">
             <div className="flex flex-col space-y-4">
-              <NavLink href="/" mobile>Home</NavLink>
-              <NavLink href="/#features" mobile>Features</NavLink>
-              <NavLink href="/#services" mobile>Services</NavLink>
-              <NavLink href="/career" mobile>Career</NavLink>
-              <NavLink href="/#contact" mobile>Contact</NavLink>
+              <NavLink to="/" mobile>Home</NavLink>
+              <NavLink to="/#features" mobile>Features</NavLink>
+              <NavLink to="/#services" mobile>Services</NavLink>
+              <NavLink to="/career" mobile>Career</NavLink>
+              <NavLink to="/#contact" mobile>Contact</NavLink>
             </div>
           </div>
         )}
@@ -49,29 +49,39 @@ const Navbar = () => {
   );
 };
 
-const NavLink = ({ 
-  href, 
-  children, 
-  mobile 
-}: { 
-  href: string; 
-  children: React.ReactNode; 
+type NavLinkProps = {
+  to: string;
+  children: React.ReactNode;
   mobile?: boolean;
-}) => {
-  const isExternal = href.startsWith('#');
-  const Component = isExternal ? 'a' : Link;
-  const props = isExternal ? { href } : { to: href };
+};
+
+const NavLink = ({ to, children, mobile }: NavLinkProps) => {
+  const isHashLink = to.includes('#');
+  
+  if (isHashLink) {
+    return (
+      <a
+        href={to}
+        className={`
+          text-gray-600 hover:text-primary transition-colors duration-300
+          ${mobile ? 'block py-2' : ''}
+        `}
+      >
+        {children}
+      </a>
+    );
+  }
 
   return (
-    <Component
-      {...props}
+    <Link
+      to={to}
       className={`
         text-gray-600 hover:text-primary transition-colors duration-300
         ${mobile ? 'block py-2' : ''}
       `}
     >
       {children}
-    </Component>
+    </Link>
   );
 };
 
